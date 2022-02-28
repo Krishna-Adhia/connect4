@@ -8,6 +8,7 @@ let actualypos;
 let click = 0;
 let counter = 0;
 let redcounter = 0;
+
 export default class GameplayState extends Phaser.State{
     create()
     {
@@ -36,11 +37,12 @@ export default class GameplayState extends Phaser.State{
     //function to insert coins
     insertcoins()
     {
+        let actualypos = 570;
         
         //find out which column is clicked
         let xpos = game.input.x;
         let ypos = game.input.y;
-        //console.log(ypos);
+
         switch(true)
         {
             case(xpos<=145):
@@ -78,55 +80,38 @@ export default class GameplayState extends Phaser.State{
                 actualxpos = 685;
                 break;
         }
+        console.log("actualxpos: "+actualxpos);
+        console.log("colselected: "+colselected);
+
+        
 
         //inserting the coins
         for(let i=5;i>=0;i--)
-        {
+        {    
+            console.log("actualypos: "+actualypos);
             if(arr[i][colselected].coin === null)
             {
-                //for row 5
-                if(i==5)
-                {
-                    actualypos = 570;
-                }
+                console.log("i: "+i);
                 if(click%2==0)
                 {
                     arr[i][colselected].coin = this.game.add.sprite(actualxpos,actualypos,'redcircle');
                     arr[i][colselected].color = "red";
-                    //console.log(i);  
+                    console.log(i);  
                 }
                 else
                 {
                     arr[i][colselected].coin = this.game.add.sprite(actualxpos,actualypos,'bluecircle');
                     arr[i][colselected].color = "blue";
-                    //console.log(i);
+                    console.log(i);
                 }
                 arr[i][colselected].coin = 'inserted'; 
                 click++;
+                
                 break; 
                 
+            } else {
+                actualypos = actualypos-107;
             }
-            //for other row
-            else
-            {
-                actualypos = actualypos - 107;
-                if(click%2==0)
-                {
-                    arr[i][colselected].coin = this.game.add.sprite(actualxpos,actualypos,'redcircle');
-                    arr[i][colselected].color = "red";
-                    //console.log(i); 
-                }
-                else
-                {
-                    arr[i][colselected].coin = this.game.add.sprite(actualxpos,actualypos,'bluecircle');
-                    arr[i][colselected].color = "blue";
-                    //console.log(i);
-                }
-                arr[i][colselected].coin = 'inserted';  
-            }
-            click++;
-            console.log(click);
-            break;
         }    
     }
 
